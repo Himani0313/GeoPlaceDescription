@@ -39,6 +39,7 @@ public class JsonRPCRequestViaHttp {
     private String post(URL url, Map<String, String> headers, String data) throws Exception {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         this.requestData = data;
+        android.util.Log.d(this.getClass().getSimpleName(), requestData);
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 connection.addRequestProperty(entry.getKey(), entry.getValue());
@@ -59,6 +60,8 @@ public class JsonRPCRequestViaHttp {
                 throw new Exception(
                         "Unexpected status from post: " + statusCode);
             }
+            else
+                android.util.Log.d(this.getClass().getSimpleName(), "bla bla bla");
         } finally {
             if (out != null) {
                 out.close();

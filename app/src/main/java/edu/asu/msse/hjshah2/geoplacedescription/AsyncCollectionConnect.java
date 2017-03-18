@@ -2,6 +2,7 @@ package edu.asu.msse.hjshah2.geoplacedescription;
 
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +33,7 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
             android.util.Log.d(this.getClass().getSimpleName(),"requestData: "+requestData+" url: "+aRequest[0].urlString);
             JsonRPCRequestViaHttp conn = new JsonRPCRequestViaHttp((new URL(aRequest[0].urlString)), aRequest[0].parent);
             String resultStr = conn.call(requestData);
+            android.util.Log.d(this.getClass().getSimpleName(),"in doInBackground on vdffffffffffffff "+ resultStr );
             aRequest[0].resultAsJson = resultStr;
         }catch (Exception ex){
             android.util.Log.d(this.getClass().getSimpleName(),"exception in remote call "+
@@ -48,6 +50,7 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
             if (res.method.equals("placeGetNames")) {
                 JSONObject jo = new JSONObject(res.resultAsJson);
                 JSONArray ja = jo.getJSONArray("result");
+                android.util.Log.d(this.getClass().getSimpleName(), String.valueOf(ja) +"pppppppp");
                 ArrayList<String> al = new ArrayList<String>();
                 for (int i = 0; i < ja.length(); i++) {
                     al.add(ja.getString(i));

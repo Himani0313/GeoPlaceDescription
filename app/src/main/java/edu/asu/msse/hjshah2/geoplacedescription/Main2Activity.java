@@ -37,7 +37,7 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
         placeLib = new PlaceDescriptionLibrary(this);
         arr = (ArrayList<String>) placeLib.loadFromJSON(this);
         try{
-            MethodInformation mi = new MethodInformation(this, url,"placeGetNames",
+            MethodInformation mi = new MethodInformation(this, url,"getNames",
                     new String[]{});
             AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
         } catch (Exception ex){
