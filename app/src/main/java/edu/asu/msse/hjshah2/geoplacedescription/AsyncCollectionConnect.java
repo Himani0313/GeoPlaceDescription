@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 
 public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer, MethodInformation> {
+    ArrayList<String> al = new ArrayList<String>();
     @Override
     protected void onPreExecute(){
         android.util.Log.d(this.getClass().getSimpleName(),"in onPreExecute on "+
@@ -46,12 +47,13 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
         android.util.Log.d(this.getClass().getSimpleName(), "in onPostExecute on " +
                 (Looper.myLooper() == Looper.getMainLooper() ? "Main thread" : "Async Thread"));
         android.util.Log.d(this.getClass().getSimpleName(), " resulting is: " + res.resultAsJson);
+
         try {
-            if (res.method.equals("placeGetNames")) {
+            if (res.method.equals("getNames")) {
                 JSONObject jo = new JSONObject(res.resultAsJson);
                 JSONArray ja = jo.getJSONArray("result");
                 android.util.Log.d(this.getClass().getSimpleName(), String.valueOf(ja) +"pppppppp");
-                ArrayList<String> al = new ArrayList<String>();
+
                 for (int i = 0; i < ja.length(); i++) {
                     al.add(ja.getString(i));
                 }
@@ -61,19 +63,7 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
                     res.parent.simpleAdapter.add(names[i]);
                 }
                 res.parent.simpleAdapter.notifyDataSetChanged();
-                if (names.length > 0) {
-                    try {
-                        // got the list of student names from the server, so now create a new async task
-                        // to get the student information about the first student and populate the UI with
-                        // that student's information.
-                        MethodInformation mi = new MethodInformation(res.parent, res.urlString, "placeGet",
-                                new String[]{names[0]});
-                        AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
-                    } catch (Exception ex) {
-                        android.util.Log.w(this.getClass().getSimpleName(), "Exception processing spinner selection: " +
-                                ex.getMessage());
-                    }
-                }
+
             }
         }catch (Exception ex){
                 android.util.Log.d(this.getClass().getSimpleName(),"Exception: "+ex.getMessage());
