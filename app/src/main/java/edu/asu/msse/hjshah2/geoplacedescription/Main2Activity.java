@@ -24,7 +24,7 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
     PlaceDescriptionLibrary placeLib;
     ListView listView;
     ArrayList<String> arr ;
-
+    ArrayAdapter<String> simpleAdapter;
 
 
 
@@ -33,14 +33,16 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         listView = (ListView) findViewById(R.id.listView);
-        String url = "http://10.0.2.2:8090";
+        String url = "http://10.0.2.2:9090";
         placeLib = new PlaceDescriptionLibrary(this);
         arr = (ArrayList<String>) placeLib.loadFromJSON(this);
-        try {
-            JsonRPCRequestViaHttp names = new JsonRPCRequestViaHttp(new URL(url), this);
-        }catch(Exception ex){
-            android.util.Log.w(this.getClass().getSimpleName(),"Exception constructing URL"+
-                    url+" message "+ex.getMessage());
+        try{
+            MethodInformation mi = new MethodInformation(this, url,"placeGetNames",
+                    new String[]{});
+            AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
+        } catch (Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
+                    ex.getMessage());
         }
         ArrayAdapter<String> simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
         listView.setAdapter(simpleAdapter);
@@ -64,7 +66,7 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
 
                 placeLib = data.getSerializableExtra("places")!=null ? (PlaceDescriptionLibrary) data.getSerializableExtra("places") : new PlaceDescriptionLibrary(this);
                 arr = (ArrayList<String>) placeLib.getTitles(this);
-                ArrayAdapter<String> simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
+                simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
                 listView.setAdapter(simpleAdapter);
                 listView.setOnItemClickListener(this);
             }
