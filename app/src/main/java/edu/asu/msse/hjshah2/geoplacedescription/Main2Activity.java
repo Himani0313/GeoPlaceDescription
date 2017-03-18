@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import org.json.JSONException;
 import android.content.Intent;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Main2Activity extends AppCompatActivity implements ListView.OnItemClickListener {
@@ -32,10 +33,15 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         listView = (ListView) findViewById(R.id.listView);
-
+        String url = "http://10.0.2.2:8090";
         placeLib = new PlaceDescriptionLibrary(this);
         arr = (ArrayList<String>) placeLib.loadFromJSON(this);
-
+        try {
+            JsonRPCRequestViaHttp names = new JsonRPCRequestViaHttp(new URL(url), this);
+        }catch(Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(),"Exception constructing URL"+
+                    url+" message "+ex.getMessage());
+        }
         ArrayAdapter<String> simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
         listView.setAdapter(simpleAdapter);
         //listView.setOnClickListener(new){
