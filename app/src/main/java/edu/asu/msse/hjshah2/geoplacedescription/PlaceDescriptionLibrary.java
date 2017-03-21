@@ -52,29 +52,29 @@ public class PlaceDescriptionLibrary implements Serializable {
     }
 
 
-    public List<String> loadFromJSON(Context appContext){
-        places = new Hashtable<String, PlaceDescription>();
-        InputStream is = appContext.getResources().openRawResource(R.raw.places);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        try{
-            JSONObject placesJSON = new JSONObject(new JSONTokener(br.readLine()));
-            Iterator<String> it = placesJSON.keys();
-            while(it.hasNext()) {
-                String pTitle = it.next();
-                JSONObject aPlace = placesJSON.optJSONObject(pTitle);
-
-                if(aPlace != null) {
-                    PlaceDescription md = new PlaceDescription(aPlace, pTitle);
-                    places.put(pTitle, md);
-                    str.add(pTitle);
-                }
-            }
-        }
-        catch(Exception e){
-            e.getStackTrace();
-        }
-        return str;
-    }
+//    public List<String> loadFromJSON(Context appContext){
+//        places = new Hashtable<String, PlaceDescription>();
+//        InputStream is = appContext.getResources().openRawResource(R.raw.places);
+//        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//        try{
+//            JSONObject placesJSON = new JSONObject(new JSONTokener(br.readLine()));
+//            Iterator<String> it = placesJSON.keys();
+//            while(it.hasNext()) {
+//                String pTitle = it.next();
+//                JSONObject aPlace = placesJSON.optJSONObject(pTitle);
+//
+//                if(aPlace != null) {
+//                    PlaceDescription md = new PlaceDescription(aPlace, pTitle);
+//                    places.put(pTitle, md);
+//                    str.add(pTitle);
+//                }
+//            }
+//        }
+//        catch(Exception e){
+//            e.getStackTrace();
+//        }
+//        return str;
+//    }
 
     public void getTitles (Context appContext){
         try{
@@ -107,8 +107,17 @@ public class PlaceDescriptionLibrary implements Serializable {
                     ex.getMessage());
         }
     }
-    public void update(String placeTitle, PlaceDescription placeDescriptionObject){
-        places.put(placeTitle, placeDescriptionObject);
+    public void update(String placeTitle, PlaceDescription placeDescriptionObject, Context appContext){
+        //places.put(placeTitle, placeDescriptionObject);
+
+        try{
+            MethodInformation mi = new MethodInformation((MainActivity) appContext, url,"add", placeDescriptionObject.toJsonString());
+            AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
+        } catch (Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
+                    ex.getMessage());
+        }
+
     }
     public PlaceDescription getPlaceDescription(String pTitle) {
         return places.get(pTitle);

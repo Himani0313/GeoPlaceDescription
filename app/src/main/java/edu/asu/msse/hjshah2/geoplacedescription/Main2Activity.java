@@ -40,14 +40,14 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
         simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<>(Arrays.asList(arr)));
         listView.setAdapter(simpleAdapter);
         try{
-            MethodInformation mi = new MethodInformation(this, url,"getNames",
+            MethodInformation mi = new MethodInformation(this, url,"resetFromJsonFile",
                     new String[]{});
             AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
         } catch (Exception ex){
             android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
                     ex.getMessage());
         }
-
+        placeLib.getTitles(this);
 
         listView.setOnItemClickListener(this);
 

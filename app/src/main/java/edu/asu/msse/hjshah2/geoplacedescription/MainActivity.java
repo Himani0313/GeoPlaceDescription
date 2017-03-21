@@ -3,6 +3,7 @@ package edu.asu.msse.hjshah2.geoplacedescription;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                     ex.getMessage());
         }
 
-        //PlaceDescriptionObject = new PlaceDescription ();
+        PlaceDescriptionObject = new PlaceDescription ();
         //PlaceDescriptionObject = pdl.getPlaceDescription(selectedPlace);
 //        name.setText(PlaceDescriptionObject.name);
 //        description.setText(PlaceDescriptionObject.description);
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         updatebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PlaceDescriptionObject.setName(name.getText().toString().trim());
                 PlaceDescriptionObject.setCategory(category.getText().toString().trim());
                 PlaceDescriptionObject.setDescription(description.getText().toString().trim());
                 PlaceDescriptionObject.setAddresstitle(adddresstitle.getText().toString().trim());
@@ -125,8 +127,9 @@ public class MainActivity extends AppCompatActivity {
                 PlaceDescriptionObject.setElevation(Double.parseDouble(elevation.getText().toString().trim()));
                 PlaceDescriptionObject.setLatitude(Double.parseDouble(latitude.getText().toString().trim()));
                 PlaceDescriptionObject.setLongitude(Double.parseDouble(longitude.getText().toString().trim()));
-
-                pdl.update(selectedPlace,PlaceDescriptionObject);
+                Log.d("UPDATE", "update clicked");
+                pdl.remove(MainActivity.this, selectedPlace);
+                pdl.update(selectedPlace,PlaceDescriptionObject,MainActivity.this);
                 Intent i = new Intent();
                 i.putExtra("places", pdl);
                 setResult(RESULT_OK,i);

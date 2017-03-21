@@ -72,6 +72,22 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
                 ((Main2Activity)(res.parent)).simpleAdapter.notifyDataSetChanged();
 
             }
+             else if (res.method.equals("resetFromJsonFile")) {
+                JSONObject jo = new JSONObject(res.resultAsJson);
+                JSONArray ja = jo.getJSONArray("result");
+                android.util.Log.d(this.getClass().getSimpleName(), String.valueOf(ja) +"pppppppp");
+
+                for (int i = 0; i < ja.length(); i++) {
+                    al.add(ja.getString(i));
+                }
+                String[] names = al.toArray(new String[0]);
+                ((Main2Activity)(res.parent)).simpleAdapter.clear();
+                for (int i = 0; i < names.length; i++) {
+                    ((Main2Activity)(res.parent)).simpleAdapter.add(names[i]);
+                }
+                ((Main2Activity)(res.parent)).simpleAdapter.notifyDataSetChanged();
+
+            }
             else if (res.method.equals("get")) {
                 JSONObject jo = new JSONObject(res.resultAsJson);
                 PlaceDescription aPlace = new PlaceDescription(jo.getJSONObject("result"));
@@ -85,7 +101,9 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
                 JSONArray ja = jo.getJSONArray("result");
             }
             else if (res.method.equals("add")) {
+
                 JSONObject jo = new JSONObject(res.resultAsJson);
+                Log.d("ADDD",jo.toString());
                 //PlaceDescription aPlace = new PlaceDescription(jo.getJSONObject("result"));
                 //android.util.Log.d(this.getClass().getSimpleName(), aPlace.name + "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 JSONArray ja = jo.getJSONArray("result");
