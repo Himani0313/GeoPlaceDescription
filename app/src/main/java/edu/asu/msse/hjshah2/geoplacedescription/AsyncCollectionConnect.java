@@ -27,7 +27,14 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
         android.util.Log.d(this.getClass().getSimpleName(),"in doInBackground on "+
                 (Looper.myLooper() == Looper.getMainLooper()?"Main thread":"Async Thread"));
         try {
-            JSONArray ja = new JSONArray(aRequest[0].params);
+            JSONArray ja;
+            if(aRequest[0].method.equals("add")){
+                ja = new JSONArray();
+                ja.put(aRequest[0].param);
+            }
+            else {
+                ja = new JSONArray(aRequest[0].params);
+            }
             android.util.Log.d(this.getClass().getSimpleName(),"params: "+ja.toString());
             String requestData = "{ \"jsonrpc\":\"2.0\", \"method\":\""+aRequest[0].method+"\", \"params\":"+ja.toString()+
                     ",\"id\":3}";
@@ -71,7 +78,18 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
                 android.util.Log.d(this.getClass().getSimpleName(), aPlace.name + "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
                 ((MainActivity)(res.parent)).getCompleted(aPlace);
             }
-
+            else if (res.method.equals("remove")) {
+                JSONObject jo = new JSONObject(res.resultAsJson);
+                //PlaceDescription aPlace = new PlaceDescription(jo.getJSONObject("result"));
+                //android.util.Log.d(this.getClass().getSimpleName(), aPlace.name + "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                JSONArray ja = jo.getJSONArray("result");
+            }
+            else if (res.method.equals("add")) {
+                JSONObject jo = new JSONObject(res.resultAsJson);
+                //PlaceDescription aPlace = new PlaceDescription(jo.getJSONObject("result"));
+                //android.util.Log.d(this.getClass().getSimpleName(), aPlace.name + "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                JSONArray ja = jo.getJSONArray("result");
+            }
         }catch (Exception ex){
                 android.util.Log.d(this.getClass().getSimpleName(),"Exception: "+ex.getMessage());
             }

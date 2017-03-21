@@ -76,8 +76,8 @@ public class PlaceDescription implements Serializable {
         }
 
     }
-    public String toJsonString(){
-        String ret = "";
+    public JSONObject toJsonString(){
+        JSONObject ret = null;
         try{
             JSONObject jo = new JSONObject();
             jo.put("name",name);
@@ -88,7 +88,7 @@ public class PlaceDescription implements Serializable {
             jo.put("elevation",elevation);
             jo.put("latitude", latitude);
             jo.put("longitude", longitude);
-
+            ret = jo;
         }catch (Exception ex){
             android.util.Log.w(this.getClass().getSimpleName(),
                     "error converting to/from json");

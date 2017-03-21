@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public PlaceDescriptionLibrary pdl;
     public  String itemname;
     Spinner spinner;
+    String url = "http://10.0.2.2:9090";
     public void getCompleted (PlaceDescription pdo){
         name.setText(pdo.name);
         description.setText(pdo.description);
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         pdl = new PlaceDescriptionLibrary(this);
         super.onCreate(savedInstanceState);
-        String url = "http://10.0.2.2:9090";
+
         setContentView(R.layout.activity_main);
         updatebtn = (Button)findViewById(R.id.updateBtn);
         name = (EditText)findViewById(R.id.displayName);
@@ -107,11 +108,12 @@ public class MainActivity extends AppCompatActivity {
 //        elevation.setText(String.valueOf(PlaceDescriptionObject.elevation));
 //        latitude.setText(String.valueOf(PlaceDescriptionObject.latitude));
 //        longitude.setText(String.valueOf(PlaceDescriptionObject.longitude));
-        ArrayList<String> placeTitleList = (ArrayList<String>) pdl.getTitles(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, placeTitleList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+
+//        ArrayList<String> placeTitleList = (ArrayList<String>) pdl.getTitles(this);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_spinner_item, placeTitleList);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
 
         updatebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.delete:
-                pdl.remove(selectedPlace);
+                pdl.remove(this,selectedPlace);
+
                 Intent intent = new Intent();
                 intent.putExtra("places", pdl);
                 this.setResult(RESULT_OK, intent);

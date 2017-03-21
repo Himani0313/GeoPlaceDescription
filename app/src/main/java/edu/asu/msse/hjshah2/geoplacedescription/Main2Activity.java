@@ -62,12 +62,12 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                String itemname = data.getStringExtra("places");
-                android.util.Log.d(this.getClass().getSimpleName(), "Returned list item name: " + itemname);
+                //String itemname = data.getStringExtra("places");
+                //android.util.Log.d(this.getClass().getSimpleName(), "Returned list item name: " + itemname);
 
                 placeLib = data.getSerializableExtra("places")!=null ? (PlaceDescriptionLibrary) data.getSerializableExtra("places") : new PlaceDescriptionLibrary(this);
-                ArrayList<String> arr = (ArrayList<String>) placeLib.getTitles(this);
-                simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
+                placeLib.getTitles(this);
+                //simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
                 listView.setAdapter(simpleAdapter);
                 listView.setOnItemClickListener(this);
             }
