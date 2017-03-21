@@ -1,5 +1,7 @@
 package edu.asu.msse.hjshah2.geoplacedescription;
 
+import android.support.v7.app.AppCompatActivity;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -18,9 +20,9 @@ public class JsonRPCRequestViaHttp {
     private final Map<String, String> headers;
     private URL url;
     private String requestData;
-    private Main2Activity parent;
+    private AppCompatActivity parent;
 
-    public JsonRPCRequestViaHttp(URL url, Main2Activity parent) {
+    public JsonRPCRequestViaHttp(URL url, AppCompatActivity parent) {
         this.url = url;
         this.parent = parent;
         this.headers = new HashMap<String, String>();

@@ -58,13 +58,20 @@ public class AsyncCollectionConnect extends AsyncTask<MethodInformation, Integer
                     al.add(ja.getString(i));
                 }
                 String[] names = al.toArray(new String[0]);
-                res.parent.simpleAdapter.clear();
+                ((Main2Activity)(res.parent)).simpleAdapter.clear();
                 for (int i = 0; i < names.length; i++) {
-                    res.parent.simpleAdapter.add(names[i]);
+                    ((Main2Activity)(res.parent)).simpleAdapter.add(names[i]);
                 }
-                res.parent.simpleAdapter.notifyDataSetChanged();
+                ((Main2Activity)(res.parent)).simpleAdapter.notifyDataSetChanged();
 
             }
+            else if (res.method.equals("get")) {
+                JSONObject jo = new JSONObject(res.resultAsJson);
+                PlaceDescription aPlace = new PlaceDescription(jo.getJSONObject("result"));
+                android.util.Log.d(this.getClass().getSimpleName(), aPlace.name + "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+                ((MainActivity)(res.parent)).getCompleted(aPlace);
+            }
+
         }catch (Exception ex){
                 android.util.Log.d(this.getClass().getSimpleName(),"Exception: "+ex.getMessage());
             }

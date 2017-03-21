@@ -55,10 +55,22 @@ public class MainActivity extends AppCompatActivity {
     public PlaceDescriptionLibrary pdl;
     public  String itemname;
     Spinner spinner;
+    public void getCompleted (PlaceDescription pdo){
+        name.setText(pdo.name);
+        description.setText(pdo.description);
+        category.setText(pdo.category);
+        adddresstitle.setText(pdo.addresstitle);
+        address.setText(pdo.address);
+        elevation.setText(String.valueOf(pdo.elevation));
+        latitude.setText(String.valueOf(pdo.latitude));
+        longitude.setText(String.valueOf(pdo.longitude));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         pdl = new PlaceDescriptionLibrary(this);
         super.onCreate(savedInstanceState);
+        String url = "http://10.0.2.2:9090";
         setContentView(R.layout.activity_main);
         updatebtn = (Button)findViewById(R.id.updateBtn);
         name = (EditText)findViewById(R.id.displayName);
@@ -76,18 +88,25 @@ public class MainActivity extends AppCompatActivity {
         pdl = intent.getSerializableExtra("places")!=null ? (PlaceDescriptionLibrary) intent.getSerializableExtra("places") :
                 new PlaceDescriptionLibrary(this);
         selectedPlace = intent.getStringExtra("name")!=null ? intent.getStringExtra("name") : "unknown";
+        try{
+            MethodInformation mi = new MethodInformation(this, url,"get",
+                    new String[]{selectedPlace});
+            AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
+        } catch (Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
+                    ex.getMessage());
+        }
 
-
-        PlaceDescriptionObject = new PlaceDescription ();
-        PlaceDescriptionObject = pdl.getPlaceDescription(selectedPlace);
-        name.setText(PlaceDescriptionObject.name);
-        description.setText(PlaceDescriptionObject.description);
-        category.setText(PlaceDescriptionObject.category);
-        adddresstitle.setText(PlaceDescriptionObject.addresstitle);
-        address.setText(PlaceDescriptionObject.address);
-        elevation.setText(String.valueOf(PlaceDescriptionObject.elevation));
-        latitude.setText(String.valueOf(PlaceDescriptionObject.latitude));
-        longitude.setText(String.valueOf(PlaceDescriptionObject.longitude));
+        //PlaceDescriptionObject = new PlaceDescription ();
+        //PlaceDescriptionObject = pdl.getPlaceDescription(selectedPlace);
+//        name.setText(PlaceDescriptionObject.name);
+//        description.setText(PlaceDescriptionObject.description);
+//        category.setText(PlaceDescriptionObject.category);
+//        adddresstitle.setText(PlaceDescriptionObject.addresstitle);
+//        address.setText(PlaceDescriptionObject.address);
+//        elevation.setText(String.valueOf(PlaceDescriptionObject.elevation));
+//        latitude.setText(String.valueOf(PlaceDescriptionObject.latitude));
+//        longitude.setText(String.valueOf(PlaceDescriptionObject.longitude));
         ArrayList<String> placeTitleList = (ArrayList<String>) pdl.getTitles(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, placeTitleList);
@@ -118,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 seletedPlace2 = spinner.getSelectedItem().toString();
                 placeDescriptionObject2 = pdl.getPlaceDescription(seletedPlace2);
-                calculate_distance();
-                calculate_bearing();
+                //calculate_distance();
+                //calculate_bearing();
             }
 
             @Override

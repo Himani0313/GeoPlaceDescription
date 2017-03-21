@@ -59,6 +59,23 @@ public class PlaceDescription implements Serializable {
         }
 
     }
+    PlaceDescription(JSONObject jo){
+        try{
+            //JSONObject jo = new JSONObject(jsonStr);
+            this.name =jo.optString("name");
+            description = jo.optString("description");
+            category = jo.optString("category");
+            addresstitle = jo.optString("address-title");
+            address = jo.optString("address-street");
+            elevation = jo.getDouble("elevation");
+            latitude = jo.getDouble("latitude");
+            longitude = jo.getDouble("longitude");
+        }catch (Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(),
+                    "error converting to/from json");
+        }
+
+    }
     public String toJsonString(){
         String ret = "";
         try{
