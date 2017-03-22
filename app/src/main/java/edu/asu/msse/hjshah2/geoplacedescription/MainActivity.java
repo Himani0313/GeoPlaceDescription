@@ -40,13 +40,12 @@ import static java.lang.Math.sin;
  *
  * instuctor and the University with the right to build and evaluate the software package for the purpose of determining your grade and program assessment
  *
- * Purpose: Example of single view application
- * Allows to display the objects of a class to access the GUI
+ * Purpose: Android app to browse and modify a collection of Place Descriptions using JsonRPC server
  *
  * Ser423 Mobile Applications
  * @author Himani Shah Himani.shah@asu.edu
  *         Software Engineering, CIDSE, ASU Poly
- * @version January 2017
+ * @version March 2017
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -60,15 +59,22 @@ public class MainActivity extends AppCompatActivity {
     String[] arr ;
     ArrayAdapter<String> simpleAdapter;
     String url = "http://10.0.2.2:9090";
-    public void getCompleted (PlaceDescription pdo){
-        name.setText(pdo.name);
-        description.setText(pdo.description);
-        category.setText(pdo.category);
-        adddresstitle.setText(pdo.addresstitle);
-        address.setText(pdo.address);
-        elevation.setText(String.valueOf(pdo.elevation));
-        latitude.setText(String.valueOf(pdo.latitude));
-        longitude.setText(String.valueOf(pdo.longitude));
+    public void getCompleted (PlaceDescription PlacDescriptionObject){
+        Log.d("Main activity","list viewwwww");
+        this.PlaceDescriptionObject = PlacDescriptionObject;
+        name.setText(PlacDescriptionObject.name);
+        description.setText(PlacDescriptionObject.description);
+        category.setText(PlacDescriptionObject.category);
+        adddresstitle.setText(PlacDescriptionObject.addresstitle);
+        address.setText(PlacDescriptionObject.address);
+        elevation.setText(String.valueOf(PlacDescriptionObject.elevation));
+        latitude.setText(String.valueOf(PlacDescriptionObject.latitude));
+        longitude.setText(String.valueOf(PlacDescriptionObject.longitude));
+    }
+    public void getDistance (PlaceDescription placeDescriptionObject2){
+        this.placeDescriptionObject2 = placeDescriptionObject2;
+        calculate_distance();
+        calculate_bearing();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,15 +100,14 @@ public class MainActivity extends AppCompatActivity {
                 new PlaceDescriptionLibrary(this);
         selectedPlace = intent.getStringExtra("name")!=null ? intent.getStringExtra("name") : "unknown";
         try{
-            MethodInformation mi = new MethodInformation(this, url,"get",
-                    new String[]{selectedPlace});
+            MethodInformation mi = new MethodInformation(this, url,"get", new String[]{selectedPlace}, false);
             AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
         } catch (Exception ex){
             android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
                     ex.getMessage());
         }
 
-        PlaceDescriptionObject = new PlaceDescription ();
+        //PlaceDescriptionObject = new PlaceDescription ();
         //PlaceDescriptionObject = pdl.getPlaceDescription(selectedPlace);
 //        name.setText(PlaceDescriptionObject.name);
 //        description.setText(PlaceDescriptionObject.description);
@@ -152,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 seletedPlace2 = spinner.getSelectedItem().toString();
                 try{
-                    MethodInformation mi = new MethodInformation(MainActivity.this, url,"get", new String[]{seletedPlace2});
+                    MethodInformation mi = new MethodInformation(MainActivity.this, url,"get", new String[]{seletedPlace2}, true);
                     AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
                 } catch (Exception ex){
                     android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
