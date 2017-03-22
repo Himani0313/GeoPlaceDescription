@@ -68,8 +68,8 @@ public class Main2Activity extends AppCompatActivity implements ListView.OnItemC
                 placeLib = data.getSerializableExtra("places")!=null ? (PlaceDescriptionLibrary) data.getSerializableExtra("places") : new PlaceDescriptionLibrary(this);
                 placeLib.getTitles(this);
                 //simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
-                listView.setAdapter(simpleAdapter);
-                listView.setOnItemClickListener(this);
+//                listView.setAdapter(simpleAdapter);
+//                listView.setOnItemClickListener(this);
             }
         }
     }

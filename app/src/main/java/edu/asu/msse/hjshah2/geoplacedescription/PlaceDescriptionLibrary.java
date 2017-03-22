@@ -29,25 +29,25 @@ public class PlaceDescriptionLibrary implements Serializable {
     Resources resources;
     String url = "http://10.0.2.2:9090";
     public PlaceDescriptionLibrary(Context appContext) {
-        places = new Hashtable<String, PlaceDescription>();
-        InputStream is = appContext.getResources().openRawResource(R.raw.places);
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        try{
-            JSONObject placesJSON = new JSONObject(new JSONTokener(br.readLine()));
-            Iterator<String> it = placesJSON.keys();
-            while(it.hasNext()) {
-                String pTitle = it.next();
-                JSONObject aPlace = placesJSON.optJSONObject(pTitle);
-
-                if(aPlace != null) {
-                    PlaceDescription md = new PlaceDescription(aPlace, pTitle);
-                    places.put(pTitle, md);
-                }
-            }
-        }
-        catch(Exception e){
-            e.getStackTrace();
-        }
+//        places = new Hashtable<String, PlaceDescription>();
+//        InputStream is = appContext.getResources().openRawResource(R.raw.places);
+//        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+//        try{
+//            JSONObject placesJSON = new JSONObject(new JSONTokener(br.readLine()));
+//            Iterator<String> it = placesJSON.keys();
+//            while(it.hasNext()) {
+//                String pTitle = it.next();
+//                JSONObject aPlace = placesJSON.optJSONObject(pTitle);
+//
+//                if(aPlace != null) {
+//                    PlaceDescription md = new PlaceDescription(aPlace, pTitle);
+//                    places.put(pTitle, md);
+//                }
+//            }
+//        }
+//        catch(Exception e){
+//            e.getStackTrace();
+//        }
 
     }
 

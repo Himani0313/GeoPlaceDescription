@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.acos;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     public PlaceDescriptionLibrary pdl;
     public  String itemname;
     Spinner spinner;
+    String[] arr ;
+    ArrayAdapter<String> simpleAdapter;
     String url = "http://10.0.2.2:9090";
     public void getCompleted (PlaceDescription pdo){
         name.setText(pdo.name);
@@ -110,12 +113,19 @@ public class MainActivity extends AppCompatActivity {
 //        latitude.setText(String.valueOf(PlaceDescriptionObject.latitude));
 //        longitude.setText(String.valueOf(PlaceDescriptionObject.longitude));
 
-//        ArrayList<String> placeTitleList = (ArrayList<String>) pdl.getTitles(this);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_spinner_item, placeTitleList);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-
+       // ArrayList<String> placeTitleList = (ArrayList<String>) pdl.getTitles(this);
+        arr = new String[]{"unknown"};
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, placeTitleList);
+        simpleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, new ArrayList<>(Arrays.asList(arr)));
+        simpleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(simpleAdapter);
+        try{
+            MethodInformation mi = new MethodInformation(MainActivity.this, url,"getNames", new String[]{});
+            AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
+        } catch (Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
+                    ex.getMessage());
+        }
         updatebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +151,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 seletedPlace2 = spinner.getSelectedItem().toString();
-                placeDescriptionObject2 = pdl.getPlaceDescription(seletedPlace2);
+                try{
+                    MethodInformation mi = new MethodInformation(MainActivity.this, url,"get", new String[]{seletedPlace2});
+                    AsyncCollectionConnect ac = (AsyncCollectionConnect) new AsyncCollectionConnect().execute(mi);
+                } catch (Exception ex){
+                    android.util.Log.w(this.getClass().getSimpleName(),"Exception creating adapter: "+
+                            ex.getMessage());
+                }
+                //placeDescriptionObject2 = pdl.getPlaceDescription(seletedPlace2);
                 //calculate_distance();
                 //calculate_bearing();
             }
