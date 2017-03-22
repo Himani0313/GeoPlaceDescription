@@ -17,13 +17,12 @@ package edu.asu.msse.hjshah2.geoplacedescription;
  *
  * instuctor and the University with the right to build and evaluate the software package for the purpose of determining your grade and program assessment
  *
- * Purpose: Example of single view application
- * Allows to display the objects of a class to access the GUI
+ * Purpose: Android app to browse and modify a collection of Place Descriptions using JsonRPC server
  *
  * Ser423 Mobile Applications
  * @author Himani Shah Himani.shah@asu.edu
  *         Software Engineering, CIDSE, ASU Poly
- * @version January 2017
+ * @version March 2017
  */
 
 import org.json.JSONObject;
